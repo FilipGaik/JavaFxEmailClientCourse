@@ -11,15 +11,18 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class ViewFactory {
 
     private EmailManager emailManager;
+    private ArrayList<Stage> activeStages;
     private ColorTheme colorTheme = ColorTheme.DEFAULT;
     private FontSize fontSize = FontSize.MEDIUM;
 
     public ViewFactory(EmailManager emailManager) {
         this.emailManager = emailManager;
+        activeStages = new ArrayList<Stage>();
     }
 
     public ColorTheme getColorTheme() {
@@ -73,9 +76,18 @@ public class ViewFactory {
         Stage stage = new Stage();
         stage.setScene(new Scene(parent));
         stage.show();
+        activeStages.add(stage);
     }
 
     public void closeStage(Stage stageToClose) {
         stageToClose.close();
+        activeStages.remove(stageToClose);
+    }
+
+    public void updateStyles() {
+        for(Stage stage : activeStages) {
+            Scene scene = stage.getScene();
+
+        }
     }
 }
