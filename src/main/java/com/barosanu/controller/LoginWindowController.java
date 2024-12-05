@@ -38,11 +38,12 @@ public class LoginWindowController extends BaseController implements Initializab
             loginService.start();
             loginService.setOnSucceeded(event -> {
                 EmailLoginResult emailLoginResult = loginService.getValue();
-
                 switch (emailLoginResult) {
                     case SUCCESS:
                         System.out.println("Login successfull!!! " + emailAccount);
-                        viewFactory.showMainWindow();
+                        if(!viewFactory.isMainViewInitialized()) {
+                            viewFactory.showMainWindow();
+                        }
                         Stage stage = (Stage) errorLabel.getScene().getWindow();
                         viewFactory.closeStage(stage);
                         return;
