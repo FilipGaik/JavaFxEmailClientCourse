@@ -3,6 +3,7 @@ package com.barosanu.controller;
 import com.barosanu.EmailManager;
 import com.barosanu.model.EmailMessage;
 import com.barosanu.model.EmailTreeItem;
+import com.barosanu.model.SizeInteger;
 import com.barosanu.view.ViewFactory;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -13,7 +14,6 @@ import javafx.scene.control.TreeView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.web.WebView;
 import javafx.util.Callback;
-
 import java.net.URL;
 import java.util.Date;
 import java.util.ResourceBundle;
@@ -39,7 +39,7 @@ public class MainWindowController extends BaseController implements Initializabl
     private TableColumn<EmailMessage, String> senderCol;
 
     @FXML
-    private TableColumn<EmailMessage, Integer> sizeCol;
+    private TableColumn<EmailMessage, SizeInteger> sizeCol;
 
     @FXML
     private TableColumn<EmailMessage, String> subjectCol;
@@ -100,7 +100,7 @@ public class MainWindowController extends BaseController implements Initializabl
         senderCol.setCellValueFactory(new PropertyValueFactory<EmailMessage, String>("Sender"));
         subjectCol.setCellValueFactory(new PropertyValueFactory<EmailMessage, String>("Subject"));
         recipientCol.setCellValueFactory(new PropertyValueFactory<EmailMessage, String>("Recipient"));
-        sizeCol.setCellValueFactory(new PropertyValueFactory<EmailMessage, Integer>("Size"));
+        sizeCol.setCellValueFactory(new PropertyValueFactory<EmailMessage, SizeInteger>("Size"));
         dateCol.setCellValueFactory(new PropertyValueFactory<EmailMessage, Date>("Date"));
     }
 
