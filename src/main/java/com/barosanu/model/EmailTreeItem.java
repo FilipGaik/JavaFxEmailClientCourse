@@ -3,7 +3,6 @@ package com.barosanu.model;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TreeItem;
-
 import javax.mail.Flags;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -26,6 +25,16 @@ public class EmailTreeItem<String> extends TreeItem<String> {
     }
 
     public void addEmail(Message message) throws MessagingException {
+        EmailMessage emailMessage = fetchMessage(message);
+        emailMessages.add(emailMessage);
+    }
+
+    public void addEmailToTop(Message message) throws MessagingException {
+        EmailMessage emailMessage = fetchMessage(message);
+        emailMessages.add(0, emailMessage);
+    }
+
+    private EmailMessage fetchMessage(Message message) throws MessagingException {
         boolean messageIsRead = message.getFlags().contains(Flags.Flag.SEEN);
         EmailMessage emailMessage = new EmailMessage(
                 message.getSubject(),
@@ -36,11 +45,10 @@ public class EmailTreeItem<String> extends TreeItem<String> {
                 messageIsRead,
                 message
         );
-        emailMessages.add(emailMessage);
         if(!messageIsRead) {
             incrementMessagesCount();
         }
-        System.out.println("added to " + name + " " + message.getSubject());
+        return emailMessage;
     }
 
     public void incrementMessagesCount() {
