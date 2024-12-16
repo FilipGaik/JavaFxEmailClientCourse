@@ -5,7 +5,6 @@ import com.barosanu.controller.services.FolderUpdaterService;
 import com.barosanu.model.EmailAccount;
 import com.barosanu.model.EmailMessage;
 import com.barosanu.model.EmailTreeItem;
-
 import javax.mail.Flags;
 import javax.mail.Folder;
 import java.util.ArrayList;
@@ -55,13 +54,32 @@ public class EmailManager {
         foldersRoot.getChildren().add(treeItem);
     }
 
-    public void isRead() {
+    public void setRead() {
         try {
             selectedMessage.setRead(true);
             selectedMessage.getMessage().setFlag(Flags.Flag.SEEN, true);
             selectedFolder.decrementMessagesCount();
         } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
 
+    public void setUnRead() {
+        try {
+            selectedMessage.setRead(false);
+            selectedMessage.getMessage().setFlag(Flags.Flag.SEEN, false);
+            selectedFolder.incrementMessagesCount();
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteSelectedMessage() {
+        try {
+            selectedMessage.getMessage().setFlag(Flags.Flag.DELETED, true);
+            selectedFolder.getEmailMessages().remove(selectedMessage);
+        } catch(Exception e) {
+            e.printStackTrace();
         }
     }
 }
