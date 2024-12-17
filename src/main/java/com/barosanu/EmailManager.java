@@ -5,6 +5,9 @@ import com.barosanu.controller.services.FolderUpdaterService;
 import com.barosanu.model.EmailAccount;
 import com.barosanu.model.EmailMessage;
 import com.barosanu.model.EmailTreeItem;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import javax.mail.Flags;
 import javax.mail.Folder;
 import java.util.ArrayList;
@@ -17,10 +20,15 @@ public class EmailManager {
     private FolderUpdaterService folderUpdaterService;
     private EmailTreeItem<String> foldersRoot = new EmailTreeItem<String>("");
     private List<Folder> folderList = new ArrayList<Folder>();
+    private ObservableList<EmailAccount> emailAccounts = FXCollections.observableArrayList();
 
     public EmailManager() {
         folderUpdaterService = new FolderUpdaterService(folderList);
         folderUpdaterService.start();
+    }
+
+    public ObservableList<EmailAccount> getEmailAccounts() {
+        return emailAccounts;
     }
 
     public EmailMessage getSelectedMessage() {
@@ -48,6 +56,7 @@ public class EmailManager {
     }
 
     public void addEmailAccount(EmailAccount emailAccount) {
+        emailAccounts.add(emailAccount);
         EmailTreeItem<String> treeItem = new EmailTreeItem<String>(emailAccount.getAddress());
         FetchFoldersService fetchFoldersService = new FetchFoldersService(emailAccount.getStore(), treeItem, folderList);
         fetchFoldersService.start();
